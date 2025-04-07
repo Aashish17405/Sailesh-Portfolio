@@ -532,10 +532,10 @@ const Portfolio = () => {
         <img
           src="https://scontent.fhyd1-5.fna.fbcdn.net/v/t39.30808-1/441953217_122116812482304439_4129983908075942016_n.jpg?stp=dst-jpg_s480x480_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e99d92&_nc_ohc=5n4w4XfNbOcQ7kNvwHLBgXq&_nc_oc=Admbiz-VtWpfKcg4coGHURAXnkUvNrGiDKJXL8FGPTa8CyvtAcmIphUHIUhVFHEfzj8&_nc_zt=24&_nc_ht=scontent.fhyd1-5.fna&_nc_gid=4px3TWuJUADOb5h__2lzXg&oh=00_AfGNVqPYzcEsOpZrxoQlURJoX-rfTQ1RARdNOsuSv4ES_w&oe=67FA1024"
           alt="Profile"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = "/assets/Profile.jpg";
-          }}
+          // onError={(e) => {
+          //   e.target.onerror = null;
+          //   e.target.src = "/assets/Profile.jpg";
+          // }}
         />
       </ProfileImage>
 
