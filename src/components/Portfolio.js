@@ -530,7 +530,7 @@ const Portfolio = () => {
         transition={{ duration: 0.5 }}
       >
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tom_Cruise_by_Gage_Skidmore_2.jpg/800px-Tom_Cruise_by_Gage_Skidmore_2.jpg"
+          src="https://instagram.fhyd1-7.fna.fbcdn.net/v/t51.2885-19/476505443_604084275721309_6952748333016000706_n.jpg?stp=dst-jpg_s320x320_tt6&_nc_ht=instagram.fhyd1-7.fna.fbcdn.net&_nc_cat=101&_nc_oc=Q6cZ2QGn7-yz_MPp42kk89AGVLR4CcyuMDS9bbQmWjJlCw2J8_2Bxwg8Ypuyoz4iv_It-jE&_nc_ohc=A_KfkHMrQqoQ7kNvwETPrpz&_nc_gid=ndFIvTRdeVKxlEBIrMFyIQ&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfGpGsp7otuuAqEMZjOrw08cuWVBE5NFz4G41PlC-IyQ9w&oe=67F9EA9D&_nc_sid=8b3546"
           alt="Profile"
           onError={(e) => {
             e.target.onerror = null;
