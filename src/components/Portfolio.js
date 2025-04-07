@@ -530,7 +530,7 @@ const Portfolio = () => {
         transition={{ duration: 0.5 }}
       >
         <img
-          src="https://instagram.fhyd1-7.fna.fbcdn.net/v/t51.2885-19/476505443_604084275721309_6952748333016000706_n.jpg?stp=dst-jpg_s320x320_tt6&_nc_ht=instagram.fhyd1-7.fna.fbcdn.net&_nc_cat=101&_nc_oc=Q6cZ2QGn7-yz_MPp42kk89AGVLR4CcyuMDS9bbQmWjJlCw2J8_2Bxwg8Ypuyoz4iv_It-jE&_nc_ohc=A_KfkHMrQqoQ7kNvwETPrpz&_nc_gid=ndFIvTRdeVKxlEBIrMFyIQ&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfGpGsp7otuuAqEMZjOrw08cuWVBE5NFz4G41PlC-IyQ9w&oe=67F9EA9D&_nc_sid=8b3546"
+          src="https://scontent.fhyd1-5.fna.fbcdn.net/v/t39.30808-1/441953217_122116812482304439_4129983908075942016_n.jpg?stp=dst-jpg_s480x480_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e99d92&_nc_ohc=5n4w4XfNbOcQ7kNvwHLBgXq&_nc_oc=Admbiz-VtWpfKcg4coGHURAXnkUvNrGiDKJXL8FGPTa8CyvtAcmIphUHIUhVFHEfzj8&_nc_zt=24&_nc_ht=scontent.fhyd1-5.fna&_nc_gid=4px3TWuJUADOb5h__2lzXg&oh=00_AfGNVqPYzcEsOpZrxoQlURJoX-rfTQ1RARdNOsuSv4ES_w&oe=67FA1024"
           alt="Profile"
           onError={(e) => {
             e.target.onerror = null;
