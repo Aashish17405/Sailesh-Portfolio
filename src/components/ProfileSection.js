@@ -105,11 +105,11 @@ const ProfileSection = () => {
         transition={{ duration: 0.5 }}
       >
         <img
-          src="https://asset.cloudinary.com/djlgmbop9/93242682fbfb969e619bc65f9f48a3cf"
+          src="https://res.cloudinary.com/djlgmbop9/image/upload/q_100/Profile_swbwsc"
           alt="Profile"
           onError={(e) => {
+            e.target.src = "/assets/profile.jpg";
             e.target.onerror = null;
-            e.target.src = "/assets/Profile.JPG";
           }}
         />
       </ProfileImage>

@@ -194,7 +194,7 @@ const AboutSection = ({ forwardedRef }) => {
           viewport={{ once: true }}
         >
           <img
-            src="https://asset.cloudinary.com/djlgmbop9/efb9f6b4ba42488497a4c1d2819cf69e"
+            src="https://res.cloudinary.com/djlgmbop9/image/upload/q_100/about_zxsrhf"
             alt="About"
             onError={(e) => {
               e.target.src = "/assets/about.jpg";

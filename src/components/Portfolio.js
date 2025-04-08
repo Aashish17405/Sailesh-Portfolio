@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -8,7 +8,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem 7rem;
+  padding: 1rem;
   color: white;
   overflow-y: auto;
   overflow-x: hidden;
@@ -21,34 +21,13 @@ const Container = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background: ${(props) =>
-      props.isScrolled
-        ? "none"
-        : `
-      linear-gradient(
-        90deg, 
-        transparent 20%, 
-        rgba(255, 255, 255, 0.03) 22%, 
-        transparent 22.5%,
-        transparent 35%,
-        rgba(255, 255, 255, 0.02) 36%,
-        transparent 36.5%,
-        transparent 47%,
-        rgba(255, 255, 255, 0.03) 48%,
-        transparent 48.5%
-      ),
-      linear-gradient(
-        180deg,
-        transparent 0%,
-        rgba(0, 0, 0, 0.95) 100%
-      )
-    `};
+    background: radial-gradient(
+      circle at center,
+      rgba(40, 40, 40, 0.2) 0%,
+      rgba(0, 0, 0, 0.95) 100%
+    );
     pointer-events: none;
     z-index: 0;
-  }
-
-  &::after {
-    content: none;
   }
 
   & > * {
@@ -141,42 +120,16 @@ const StatusDot = styled.div`
   background-color: #4caf50;
   border-radius: 50%;
   box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
-  animation: pulse 2s infinite;
-
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-      box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
-    }
-    50% {
-      transform: scale(1.1);
-      box-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
-    }
-    70% {
-      transform: scale(0.9);
-      box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
-    }
-    100% {
-      transform: scale(1);
-      box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
-    }
-  }
 `;
 
 const Name = styled(motion.h1)`
   font-size: clamp(2rem, 5vw, 3rem);
   margin: 0;
+  font-family: "Arial", sans-serif;
   text-align: center;
 
-  span.firstName {
-    font-family: "Impact", sans-serif;
-    font-weight: 80;
-  }
-
-  span.lastName {
-    font-family: "Instrument Serif", serif;
+  span {
     font-style: italic;
-    font-weight: 80;
     opacity: 0.9;
   }
 `;
@@ -184,12 +137,12 @@ const Name = styled(motion.h1)`
 const Subtitle = styled(motion.h2)`
   font-style: italic;
   font-weight: normal;
-  color: white;
+  color: #888;
   margin: 0.5rem 0;
 `;
 
 const Description = styled(motion.p)`
-  color: white;
+  color: #888;
   margin-bottom: 2rem;
   text-align: center;
   font-size: clamp(1rem, 2vw, 1.1rem);
@@ -219,7 +172,7 @@ const SocialIcon = styled(motion.a)`
   }
 
   &:hover {
-    color: white;
+    color: #888;
 
     img {
       transform: scale(1.1);
@@ -273,11 +226,9 @@ const VideoBackground = styled.div`
 `;
 
 const AboutTitle = styled(motion.h2)`
-  font-family: "Impact", sans-serif;
-  font-weight: 80;
   position: relative;
   z-index: 2;
-  font-size: clamp(1.7rem, 5vw, 4rem);
+  font-size: clamp(2.5rem, 5vw, 4rem);
   margin-bottom: 2rem;
   display: flex;
   gap: 0.5rem;
@@ -289,8 +240,6 @@ const AboutTitle = styled(motion.h2)`
 
   span {
     font-style: italic;
-    font-family: "Instrument Serif", serif;
-    font-weight: 80;
     font-size: clamp(2rem, 4vw, 3rem);
     opacity: 0.7;
     color: #a0a0a0;
@@ -306,7 +255,7 @@ const AboutTitle = styled(motion.h2)`
 const AboutDescription = styled(motion.p)`
   position: relative;
   z-index: 2;
-  color: white;
+  color: #888;
   font-size: clamp(1rem, 1.5vw, 1.2rem);
   line-height: 1.6;
   max-width: 600px;
@@ -350,7 +299,7 @@ const AboutImage = styled(motion.div)`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(1.5) contrast(0.9) saturate(1.1);
+
     transition: filter 0.5s ease;
   }
 
@@ -361,7 +310,7 @@ const AboutImage = styled(motion.div)`
 `;
 
 const AboutText = styled(motion.div)`
-  color: white;
+  color: #888;
   font-size: clamp(1rem, 1.5vw, 1.1rem);
   line-height: 1.8;
 
@@ -409,7 +358,7 @@ const CategoryBar = styled(motion.div)`
 
 const CategoryButton = styled(motion.button)`
   background: ${(props) =>
-    props.active === "true" ? "rgba(255, 255, 255, 0.1)" : "transparent"};
+    props.active ? "rgba(255, 255, 255, 0.1)" : "transparent"};
   border: none;
   padding: 0.5rem 2rem;
   color: white;
@@ -417,7 +366,7 @@ const CategoryButton = styled(motion.button)`
   cursor: pointer;
   font-size: clamp(0.875rem, 2vw, 1rem);
   transition: all 0.3s;
-  opacity: ${(props) => (props.active === "true" ? 1 : 0.7)};
+  opacity: ${(props) => (props.active ? 1 : 0.7)};
 
   @media (max-width: 768px) {
     padding: 0.5rem 1rem;
@@ -426,9 +375,7 @@ const CategoryButton = styled(motion.button)`
   &:hover {
     opacity: 1;
     background: ${(props) =>
-      props.active === "true"
-        ? "rgba(255, 255, 255, 0.1)"
-        : "rgba(255, 255, 255, 0.05)"};
+      props.active ? "rgba(255, 255, 255, 0.1)" : "rgba(255, 255, 255, 0.05)"};
   }
 `;
 
@@ -443,167 +390,103 @@ const projectsData = [
     id: 2,
     title: "",
     category: "Wildlife",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/Adobe_Express_-_file_1_gvpcho",
-    fallbackImage: "/assets/wildlife/Adobe Express - file (1).jpg",
+    image: "/assets/wildlife/DSC00128.JPG",
   },
   {
     id: 3,
     title: "",
     category: "Wildlife",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/Adobe_Express_-_file_nn7npf",
-    fallbackImage: "/assets/wildlife/Adobe Express - file.jpg",
+    image: "/assets/wildlife/Adobe Express - file.jpg",
   },
   {
     id: 4,
     title: "",
     category: "Wildlife",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/Adobe_Express_-_file_3_gltg6i",
-    fallbackImage: "/assets/wildlife/Adobe Express - file (3).jpg",
+    image: "/assets/wildlife/Adobe Express - file (3).jpg",
   },
   {
     id: 5,
     title: "",
     category: "Wildlife",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/Adobe_Express_-_file_2_bdo4tn",
-    fallbackImage: "/assets/wildlife/Adobe Express - file (2).jpg",
+    image: "/assets/wildlife/Adobe Express - file (2).jpg",
   },
   {
     id: 6,
     title: "",
     category: "Wildlife",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSC00128_uwutxu",
-    fallbackImage: "/assets/wildlife/DSC00128.JPG",
+    image: "/assets/wildlife/Adobe Express - file (1).jpg",
   },
   {
     id: 7,
     title: "",
     category: "Portraits",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSCF6243_ej7niq",
+    image: "/assets/portraits/DSCF6369.JPG",
   },
   {
     id: 8,
     title: "",
     category: "Portraits",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSC_0522_emzazl",
+    image: "/assets/portraits/DSCF6390.JPG",
   },
   {
     id: 9,
     title: "",
     category: "Portraits",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSCF6390_e9uyzj",
+    image: "/assets/portraits/DSCF6243.JPG",
   },
   {
     id: 10,
     title: "",
     category: "Portraits",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSC00699_nii6am",
+    image: "/assets/portraits/DSC_0522.JPG",
   },
   {
     id: 11,
     title: "",
     category: "Portraits",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSCF6369_cu8yfl",
+    image: "/assets/portraits/DSC00699.JPG",
   },
   {
     id: 12,
     title: "",
     category: "Portraits",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSC00654_kco0g2",
+    image: "/assets/portraits/DSC00654.JPG",
   },
   {
     id: 13,
     title: "",
     category: "Fashion",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSC02181_lxvxxy",
+    image: "/assets/fashion/DSC02195.JPG",
   },
   {
     id: 14,
     title: "",
     category: "Fashion",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSC02169_dd8wfq",
+    image: "/assets/fashion/DSC02181.JPG",
   },
   {
     id: 15,
     title: "",
     category: "Fashion",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSC02112_hxge86",
+    image: "/assets/fashion/DSC02169.JPG",
   },
   {
     id: 16,
     title: "",
     category: "Fashion",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSC02108_zsx1lf",
+    image: "/assets/fashion/DSC02112.JPG",
   },
   {
     id: 17,
     title: "",
     category: "Fashion",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSC02195_gcakht",
+    image: "/assets/fashion/DSC02108.JPG",
   },
   {
     id: 18,
     title: "",
     category: "Fashion",
-    image:
-      "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSC02099_j06xyf",
-  },
-  {
-    id: 19,
-    title: "",
-    category: "Concerts",
-    image: "https://res.cloudinary.com/djlgmbop9/image/upload/DSC00554_wsrxfn",
-    fallbackImage: "/assets/concerts/DSC00554.JPG",
-  },
-  {
-    id: 20,
-    title: "",
-    category: "Concerts",
-    image: "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSC00553_v6awhx",
-    fallbackImage: "/assets/concerts/DSC00553.JPG",
-  },
-  {
-    id: 21,
-    title: "",
-    category: "Concerts",
-    image: "https://res.cloudinary.com/djlgmbop9/image/upload/DSC00504_sr3ume",
-    fallbackImage: "/assets/concerts/DSC00504.JPG",
-  },
-  {
-    id: 22,
-    title: "",
-    category: "Concerts",
-    image: "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSC00494_vy1gmw",
-    fallbackImage: "/assets/concerts/DSC00494.JPG",
-  },
-  {
-    id: 23,
-    title: "",
-    category: "Concerts",
-    image: "https://res.cloudinary.com/djlgmbop9/image/upload/q_100/DSC00489_xdqex0",
-    fallbackImage: "/assets/concerts/DSC00489.JPG",
-  },
-  {
-    id: 24,
-    title: "",
-    category: "Concerts",
-    image: "/assets/concerts/DSC00487.JPG",
-    fallbackImage: "/assets/concerts/DSC00487.JPG",
+    image: "/assets/fashion/DSC02099.JPG",
   },
 ];
 
@@ -612,24 +495,6 @@ const Portfolio = () => {
   const projectsRef = useRef(null);
   const [activeCategory, setActiveCategory] = useState("Wildlife");
   const [selectedProject, setSelectedProject] = useState(null);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 100) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    // Clean up
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   const scrollToAbout = () => {
     aboutRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -652,7 +517,7 @@ const Portfolio = () => {
   };
 
   return (
-    <Container isScrolled={isScrolled}>
+    <Container>
       <Navigation>
         <NavButton onClick={scrollToAbout}>About</NavButton>
         <NavButton onClick={scrollToProjects}>Projects</NavButton>
@@ -665,12 +530,12 @@ const Portfolio = () => {
         transition={{ duration: 0.5 }}
       >
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tom_Cruise_by_Gage_Skidmore_2.jpg/800px-Tom_Cruise_by_Gage_Skidmore_2.jpg"
+          src="/assets/Profile.jpg"
           alt="Profile"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = "/assets/Profile.jpg";
-          }}
+          // onError={(e) => {
+          //   e.target.onerror = null;
+          //   e.target.src = "/assets/Profile.jpg";
+          // }}
         />
       </ProfileImage>
 
@@ -684,8 +549,7 @@ const Portfolio = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
-        <span className="firstName">Sailesh</span>{" "}
-        <span className="lastName">Atreya</span>
+        Sailesh <span style={{ fontStyle: "italic" }}>Atreya</span>
       </Name>
 
       <Description
@@ -698,19 +562,20 @@ const Portfolio = () => {
 
       <SocialLinks>
         <SocialIcon
+          href="#"
+          target="_blank"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <img src="/assets/socials/icons8-twitter.svg" alt="Twitter" />
+        </SocialIcon>
+        <SocialIcon
           href="https://www.instagram.com/sailu_297/"
           target="_blank"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
-          <img
-            src="/assets/socials/icons8-instagram.svg"
-            alt="Instagram"
-            onError={(e) => {
-              e.target.style.display = "none";
-              console.log("Instagram icon failed to load");
-            }}
-          />
+          <img src="/assets/socials/icons8-instagram.svg" alt="Instagram" />
         </SocialIcon>
         <SocialIcon
           href="https://www.facebook.com/profile.php?id=61559133179067"
@@ -718,14 +583,7 @@ const Portfolio = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
-          <img
-            src="/assets/socials/icons8-facebook.svg"
-            alt="Facebook"
-            onError={(e) => {
-              e.target.style.display = "none";
-              console.log("Facebook icon failed to load");
-            }}
-          />
+          <img src="/assets/socials/icons8-facebook.svg" alt="Facebook" />
         </SocialIcon>
       </SocialLinks>
 
@@ -742,7 +600,6 @@ const Portfolio = () => {
             alt="Background Animation"
             onError={(e) => {
               e.target.style.display = "none";
-              console.log("Background GIF failed to load");
             }}
           />
         </VideoBackground>
@@ -765,14 +622,7 @@ const Portfolio = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <img
-            src="https://asset.cloudinary.com/djlgmbop9/efb9f6b4ba42488497a4c1d2819cf69e"
-            alt="About"
-            onError={(e) => {
-              e.target.src = "/assets/about.jpg";
-              console.log("About image failed to load");
-            }}
-          />
+          <img src="/assets/about.jpg" alt="About" />
         </AboutImage>
 
         <AboutText
@@ -781,6 +631,11 @@ const Portfolio = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
         >
+          <p>
+            Hi, I'm Sailesh Atreya, a passionate Photographer, Cinematographer
+            with a mission to bring creative ideas to life through exceptional
+            designs and content.
+          </p>
           <p>
             Hi, I'm Sailesh Atreya, a visual storyteller specializing in
             photography, videography, and editing. With a passion for capturing
@@ -805,10 +660,10 @@ const Portfolio = () => {
         viewport={{ once: true }}
       >
         <CategoryBar>
-          {["Wildlife", "Portraits", "Fashion", "Concert"].map((category) => (
+          {["Wildlife", "Portraits", "Fashion"].map((category) => (
             <CategoryButton
               key={category}
-              active={activeCategory === category ? "true" : "false"}
+              active={activeCategory === category}
               onClick={() => setActiveCategory(category)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -834,14 +689,9 @@ const Portfolio = () => {
                   src={project.image}
                   alt={project.title}
                   onError={(e) => {
-                    if (project.fallbackImage) {
-                      e.target.src = project.fallbackImage;
-                    } else {
-                      e.target.style.display = "none";
-                    }
-                    console.log(
-                      `Image failed to load for project ${project.id}`
-                    );
+                    e.target.onerror = null;
+                    e.target.src =
+                      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/800px-Placeholder_view_vector.svg.png";
                   }}
                 />
               </ProjectCard>
