@@ -665,11 +665,11 @@ const Portfolio = () => {
         transition={{ duration: 0.5 }}
       >
         <img
-          src="https://asset.cloudinary.com/djlgmbop9/93242682fbfb969e619bc65f9f48a3cf"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tom_Cruise_by_Gage_Skidmore_2.jpg/800px-Tom_Cruise_by_Gage_Skidmore_2.jpg"
           alt="Profile"
           onError={(e) => {
             e.target.onerror = null;
-            e.target.src = "/assets/Profile.JPG";
+            e.target.src = "/assets/Profile.jpg";
           }}
         />
       </ProfileImage>
