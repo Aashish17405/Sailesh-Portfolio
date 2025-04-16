@@ -43,11 +43,15 @@ const NavButton = styled.button`
 `;
 
 const Navigation = ({ scrollToAbout, scrollToProjects }) => {
+  const handleContactClick = () => {
+    window.location.href = "mailto:saileshatreya@gmail.com";
+  };
+
   return (
     <NavigationWrapper>
       <NavButton onClick={scrollToAbout}>About</NavButton>
       <NavButton onClick={scrollToProjects}>Projects</NavButton>
-      <NavButton>Contact</NavButton>
+      <NavButton onClick={handleContactClick}>Contact</NavButton>
     </NavigationWrapper>
   );
 };

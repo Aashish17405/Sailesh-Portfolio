@@ -36,7 +36,7 @@ const SocialLinks = () => {
   return (
     <SocialLinksContainer>
       <SocialIcon
-        href="https://www.instagram.com/sailu_297/"
+        href="https://www.instagram.com/sailuframes_/"
         target="_blank"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
