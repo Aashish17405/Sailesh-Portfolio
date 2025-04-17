@@ -2,13 +2,13 @@ import React from "react";
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
 import SocialLinks from "./SocialLinks";
+import LampContainer from '../ui/LampContainer';
 
 const ProfileImage = styled(motion.div)`
   width: min(300px, 80vw);
   height: min(300px, 80vw);
   border-radius: 50%;
   overflow: hidden;
-  margin-bottom: 2rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   border: 2px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
@@ -99,6 +99,18 @@ const Description = styled(motion.p)`
 const ProfileSection = () => {
   return (
     <>
+    <LampContainer>
+      <motion.h1
+        initial={{ opacity: 0.5, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.3,
+          duration: 0.8,
+          ease: "easeInOut",
+        }}
+        className="mt-8 bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl">
+      </motion.h1>
+    </LampContainer>
       <ProfileImage
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}

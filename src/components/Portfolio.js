@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
-import styled from "@emotion/styled";
+import styled, { keyframes } from "@emotion/styled";
 import { motion, AnimatePresence } from "framer-motion";
+import Footer from "./Footer";
+import Navigation from "./Navigation";
 
 const Container = styled.div`
   background-color: #000000;
@@ -36,7 +38,7 @@ const Container = styled.div`
   }
 `;
 
-const Navigation = styled.nav`
+const NavigationBar = styled.nav`
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -76,15 +78,166 @@ const NavButton = styled.button`
   }
 `;
 
+const glowPulse = keyframes`
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(66, 220, 255, 0.7);
+  }
+  
+  50% {
+    transform: scale(1);
+    box-shadow: 0 0 0 15px rgba(66, 220, 255, 0);
+  }
+  
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(66, 220, 255, 0);
+  }
+`;
+
+const rotateGlow = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+const neonFlicker = keyframes`
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 0.99;
+    filter: drop-shadow(0 0 10px rgba(66, 220, 255, 0.8)) 
+            drop-shadow(0 0 20px rgba(66, 220, 255, 0.5));
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.6;
+    filter: drop-shadow(0 0 4px rgba(66, 220, 255, 0.5)) 
+            drop-shadow(0 0 10px rgba(66, 220, 255, 0.3));
+  }
+`;
+
+const glowRotate = keyframes`
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+`;
+
+const ProfileContainer = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+`;
+
+const NeonRing = styled(motion.div)`
+  position: absolute;
+  width: calc(min(300px, 80vw) + 30px);
+  height: calc(min(300px, 80vw) + 30px);
+  border-radius: 50%;
+  background: transparent;
+  border: 3px solid transparent;
+  box-shadow: 0 0 15px 5px rgba(66, 220, 255, 0.7),
+    0 0 30px 15px rgba(66, 220, 255, 0.3),
+    inset 0 0 15px 5px rgba(66, 220, 255, 0.5);
+  z-index: 0;
+  animation: ${glowPulse} 2s infinite;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    border-radius: 50%;
+    border: 6px solid transparent;
+    border-top: 6px solid rgba(120, 255, 215, 0.7);
+    border-right: 6px solid rgba(123, 160, 255, 0.7);
+    filter: blur(3px);
+    animation: ${rotateGlow} 8s linear infinite;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    background: linear-gradient(
+      90deg,
+      rgba(123, 160, 255, 0.8),
+      rgba(66, 220, 255, 0.8),
+      rgba(120, 255, 215, 0.8),
+      rgba(123, 160, 255, 0.8)
+    );
+    background-size: 400% 400%;
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(20px);
+    opacity: 0.5;
+    animation: ${glowRotate} 10s ease infinite,
+      ${neonFlicker} 8s linear infinite;
+  }
+
+  @media (max-width: 768px) {
+    width: 220px;
+    height: 220px;
+  }
+`;
+
+const NeonAccent = styled(motion.div)`
+  position: absolute;
+  width: calc(min(300px, 80vw) + 60px);
+  height: calc(min(300px, 80vw) + 60px);
+  border-radius: 50%;
+  z-index: -1;
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: rgba(66, 220, 255, 0.9);
+    box-shadow: 0 0 15px 5px rgba(66, 220, 255, 0.7);
+    filter: blur(1px);
+    animation: ${neonFlicker} 4s linear infinite;
+  }
+
+  &:before {
+    top: 10%;
+    right: 15%;
+  }
+
+  &:after {
+    bottom: 10%;
+    left: 15%;
+  }
+
+  @media (max-width: 768px) {
+    width: 260px;
+    height: 260px;
+  }
+`;
+
 const ProfileImage = styled(motion.div)`
+  position: relative;
   width: min(300px, 80vw);
   height: min(300px, 80vw);
   border-radius: 50%;
   overflow: hidden;
-  margin-bottom: 2rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   border: 2px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
+  z-index: 1;
+  transition: transform 0.3s ease;
 
   img {
     width: 100%;
@@ -94,9 +247,13 @@ const ProfileImage = styled(motion.div)`
     transition: all 0.5s ease;
   }
 
-  &:hover img {
-    filter: grayscale(0%);
-    transform: scale(1.05);
+  &:hover {
+    transform: translateY(-5px);
+
+    img {
+      filter: grayscale(0%);
+      transform: scale(1.05);
+    }
   }
 
   @media (max-width: 768px) {
@@ -163,6 +320,29 @@ const SocialIcon = styled(motion.a)`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      circle,
+      rgba(66, 220, 255, 0.15),
+      rgba(120, 255, 215, 0.05)
+    );
+    transform: scale(0);
+    transition: transform 0.5s ease;
+    z-index: -1;
+    border-radius: 50%;
+  }
 
   img {
     width: 30px;
@@ -173,9 +353,15 @@ const SocialIcon = styled(motion.a)`
 
   &:hover {
     color: #888;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), 0 0 15px rgba(66, 220, 255, 0.3);
 
     img {
       transform: scale(1.1);
+    }
+
+    &::before {
+      transform: scale(1.5);
     }
   }
 `;
@@ -358,24 +544,55 @@ const CategoryBar = styled(motion.div)`
 
 const CategoryButton = styled(motion.button)`
   background: ${(props) =>
-    props.active ? "rgba(255, 255, 255, 0.1)" : "transparent"};
-  border: none;
+    props.active ? "rgba(66, 220, 255, 0.15)" : "transparent"};
+  border: ${(props) =>
+    props.active ? "1px solid rgba(66, 220, 255, 0.3)" : "none"};
   padding: 0.5rem 2rem;
   color: white;
   border-radius: 25px;
   cursor: pointer;
   font-size: clamp(0.875rem, 2vw, 1rem);
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   opacity: ${(props) => (props.active ? 1 : 0.7)};
+  position: relative;
+  overflow: hidden;
+  box-shadow: ${(props) =>
+    props.active ? "0 0 15px rgba(66, 220, 255, 0.2)" : "none"};
 
   @media (max-width: 768px) {
     padding: 0.5rem 1rem;
   }
 
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(66, 220, 255, 0.1),
+      rgba(120, 255, 215, 0.1)
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+    z-index: -1;
+    border-radius: 25px;
+  }
+
   &:hover {
     opacity: 1;
     background: ${(props) =>
-      props.active ? "rgba(255, 255, 255, 0.1)" : "rgba(255, 255, 255, 0.05)"};
+      props.active ? "rgba(66, 220, 255, 0.2)" : "rgba(255, 255, 255, 0.08)"};
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), 0 0 15px rgba(66, 220, 255, 0.3);
+    border: 1px solid rgba(66, 220, 255, 0.3);
+    letter-spacing: 0.5px;
+
+    &::before {
+      transform: translateX(0);
+    }
   }
 `;
 
@@ -490,11 +707,21 @@ const projectsData = [
   },
 ];
 
+window.scrollToContactSection = () => {
+  console.log("Global scroll to contact called");
+  window.scrollTo({
+    top: document.documentElement.scrollHeight,
+    behavior: "smooth",
+  });
+};
+
 const Portfolio = () => {
   const aboutRef = useRef(null);
   const projectsRef = useRef(null);
+  const footerRef = useRef(null);
   const [activeCategory, setActiveCategory] = useState("Wildlife");
   const [selectedProject, setSelectedProject] = useState(null);
+  const [isProfileHovered, setIsProfileHovered] = useState(false);
 
   const scrollToAbout = () => {
     aboutRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -502,6 +729,20 @@ const Portfolio = () => {
 
   const scrollToProjects = () => {
     projectsRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToContact = () => {
+    console.log("scrollToContact called in Portfolio.js");
+
+    // Call the global function
+    window.scrollToContactSection();
+
+    // Also try the ref method as backup
+    setTimeout(() => {
+      if (footerRef.current) {
+        footerRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   };
 
   const filteredProjects = projectsData.filter(
@@ -518,26 +759,43 @@ const Portfolio = () => {
 
   return (
     <Container>
-      <Navigation>
-        <NavButton onClick={scrollToAbout}>About</NavButton>
-        <NavButton onClick={scrollToProjects}>Projects</NavButton>
-        <NavButton>Contact</NavButton>
-      </Navigation>
+      <Navigation
+        key="navigation-component"
+        scrollToAbout={scrollToAbout}
+        scrollToProjects={scrollToProjects}
+        scrollToContact={scrollToContact}
+      />
 
-      <ProfileImage
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <img
-          src="/assets/Profile.jpg"
-          alt="Profile"
-          // onError={(e) => {
-          //   e.target.onerror = null;
-          //   e.target.src = "/assets/Profile.jpg";
-          // }}
+      <ProfileContainer>
+        <NeonRing
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{
+            opacity: 1,
+            scale: isProfileHovered ? 1.05 : 1,
+            boxShadow: isProfileHovered
+              ? "0 0 20px 8px rgba(66, 220, 255, 0.8), 0 0 40px 20px rgba(66, 220, 255, 0.4), inset 0 0 20px 8px rgba(66, 220, 255, 0.6)"
+              : "0 0 15px 5px rgba(66, 220, 255, 0.7), 0 0 30px 15px rgba(66, 220, 255, 0.3), inset 0 0 15px 5px rgba(66, 220, 255, 0.5)",
+          }}
+          transition={{ duration: 0.4 }}
         />
-      </ProfileImage>
+        <NeonAccent
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: isProfileHovered ? 0.9 : 0.7,
+            scale: isProfileHovered ? 1.1 : 1,
+          }}
+          transition={{ duration: 0.5 }}
+        />
+        <ProfileImage
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+          onMouseEnter={() => setIsProfileHovered(true)}
+          onMouseLeave={() => setIsProfileHovered(false)}
+        >
+          <img src="/assets/Profile.jpg" alt="Profile" />
+        </ProfileImage>
+      </ProfileContainer>
 
       <StatusIndicator>
         <StatusDot />
@@ -632,22 +890,20 @@ const Portfolio = () => {
           viewport={{ once: true }}
         >
           <p>
-            Hi, I'm Sailesh Atreya, a passionate Photographer, Cinematographer
-            with a mission to bring creative ideas to life through exceptional
-            designs and content.
+            Hi! I'm Sailesh Atreya, a passionate and dedicated creative with a
+            strong eye for detail and a love for visual storytelling. With 3
+            years of experience in Photography , Cinematography And Graphic
+            Design I've had the opportunity to work on a wide range of projects
+            that reflect not just my skills, but my commitment to creating
+            meaningful and impactful work.
           </p>
           <p>
-            Hi, I'm Sailesh Atreya, a visual storyteller specializing in
-            photography, videography, and editing. With a passion for capturing
-            moments that evoke emotion and tell compelling stories, I create
-            visuals that leave a lasting impact.
-          </p>
-          <p>
-            From dynamic cinematography to meticulously edited visuals, I bring
-            a blend of creativity and technical expertise to every project.
-            Whether it's capturing raw authenticity through photography,
-            crafting immersive video narratives, or enhancing visuals with
-            seamless editing, I strive to make every frame count.
+            I specialize in using softwares like Adobe Photoshop, Premier pro ,
+            Creative thinking and I'm constantly exploring new techniques and
+            tools to push creative boundaries. Whether it's capturing the raw
+            emotion of a moment, designing intuitive digital experiences, or
+            crafting compelling visuals, I approach every project with
+            enthusiasm, curiosity, and a strong sense of purpose.
           </p>
         </AboutText>
       </AboutContent>
@@ -745,6 +1001,8 @@ const Portfolio = () => {
           </Modal>
         )}
       </AnimatePresence>
+
+      <Footer ref={footerRef} />
     </Container>
   );
 };
@@ -753,7 +1011,7 @@ const ProjectsGrid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  margin-top: 2rem;
+  margin-top: 0rem;
   background: rgba(255, 255, 255, 0.02);
   padding: 2rem;
   border-radius: 20px;
@@ -775,6 +1033,7 @@ const ProjectCard = styled(motion.div)`
   background-color: rgba(255, 255, 255, 0.05);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   img {
     width: 100%;
@@ -785,9 +1044,11 @@ const ProjectCard = styled(motion.div)`
   }
 
   &:hover {
+    transform: translateY(-10px);
+
     img {
       filter: grayscale(0%);
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
   }
 `;
@@ -826,11 +1087,37 @@ const CloseButton = styled(motion.button)`
   z-index: 1001;
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      circle,
+      rgba(66, 220, 255, 0.15),
+      rgba(120, 255, 215, 0.05)
+    );
+    transform: scale(0);
+    transition: transform 0.5s ease;
+    z-index: -1;
+    border-radius: 50%;
+  }
 
   &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), 0 0 15px rgba(66, 220, 255, 0.3);
+    border: 1px solid rgba(66, 220, 255, 0.3);
+
+    &::before {
+      transform: scale(1.5);
+    }
   }
 `;
 

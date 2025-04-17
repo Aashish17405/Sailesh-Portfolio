@@ -137,7 +137,7 @@ const AboutImage = styled(motion.div)`
 
 const AboutText = styled(motion.div)`
   color: white;
-  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  font-size: clamp(1rem, 1vw, 1.1rem);
   line-height: 1.8;
 
   p {
@@ -210,18 +210,42 @@ const AboutSection = ({ forwardedRef }) => {
           viewport={{ once: true }}
         >
           <p>
-            Hi, I'm Sailesh Atreya, a visual storyteller specializing in
-            photography, videography, and editing. With a passion for capturing
-            moments that evoke emotion and tell compelling stories, I create
-            visuals that leave a lasting impact.
+            Hello! I'm Sailesh Atreya, a driven and passionate creative with a
+            keen eye for detail and a passion for visual storytelling. With 3
+            years of experience in Photography, Cinematography And Graphic
+            Design I've been able to work on a diverse variety of projects that
+            not only showcase my abilities, but my dedication to creating
+            meaningful and impactful work. What gets me going is the power of
+            storytelling that resonates. I thrive in a space where I can work
+            with others, learn, and build something greater always striving to
+            produce work that not only looks good but also feels thoughtful.
+            Software Skills in
           </p>
-          <p>
-            From dynamic cinematography to meticulously edited visuals, I bring
-            a blend of creativity and technical expertise to every project.
-            Whether it's capturing raw authenticity through photography,
-            crafting immersive video narratives, or enhancing visuals with
-            seamless editing, I strive to make every frame count.
-          </p>
+          <div
+            style={{
+              display: "flex",
+              gap: "12px",
+            }}
+          >
+            <img
+              style={{ borderRadius: "12px" }}
+              src="/assets/about/ps-image.jpeg"
+              alt="ps-image"
+              width={50}
+            />
+            <img
+              style={{ borderRadius: "12px" }}
+              src="/assets/about/pr.png"
+              alt="ps-image"
+              width={50}
+            />
+            <img
+              style={{ borderRadius: "12px" }}
+              src="/assets/about/lr.png"
+              alt="ps-image"
+              width={50}
+            />
+          </div>
         </AboutText>
       </AboutContent>
     </>
